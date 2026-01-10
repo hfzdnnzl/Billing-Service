@@ -1,0 +1,15 @@
+spring.application.name=Billing Service
+spring.datasource.url=jdbc:postgresql://localhost:5432/billing_db
+spring.datasource.username=lakarra
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.flyway.enabled=true
+
+# Stripe Configuration
+stripe.api.key=sk_test_example
+stripe.price.basic=price_example
+stripe.price.premium=price_example
+stripe.price.ultimate=price_example
+stripe.price.addon.half-custom=price_example
+stripe.price.addon.full-custom=price_example
