@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 application.properties
+
+# JWT Private Keys - DO NOT COMMIT
+src/main/resources/keys/private_key.pem
