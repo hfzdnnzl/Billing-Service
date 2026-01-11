@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/stripe/prices")
 @RequiredArgsConstructor
 @Slf4j
 public class StripePriceController {
@@ -24,7 +23,7 @@ public class StripePriceController {
      *
      * @return List of active prices
      */
-    @GetMapping("/active")
+    @GetMapping("/api/v1/stripe/prices/active")
     public ResponseEntity<List<Price>> getActivePrices() {
         try {
             log.info("Fetching active prices from Stripe");

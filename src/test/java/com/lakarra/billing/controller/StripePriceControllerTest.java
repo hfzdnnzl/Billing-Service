@@ -41,6 +41,7 @@ class StripePriceControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         Price mockPrice = new Price();
         mockPrice.setId("price_123");
+        mockPrice.setUnitAmount(35L);
 
         mockPrices = new ArrayList<>();
         mockPrices.add(mockPrice);
@@ -57,7 +58,8 @@ class StripePriceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id").value("price_123"));
+                .andExpect(jsonPath("$[0].id").value("price_123"))
+                .andExpect(jsonPath("$[0].unitAmount").value(35L));
     }
 
     @Test

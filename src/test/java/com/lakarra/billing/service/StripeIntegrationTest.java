@@ -2,6 +2,7 @@ package com.lakarra.billing.service;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
+import com.stripe.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,10 @@ class StripeIntegrationTest {
             assertNotNull(prices, "Prices list should not be null");
             System.out.println("✅ CONNECTION SUCCESS: Successfully fetched " + prices.size() + " prices from Stripe.");
             
-            if (!prices.isEmpty()) {
-                System.out.println("   Sample Price ID: " + prices.getFirst().getId());
+            for (Price price : prices) {
+                Product product = (Product) price.getProductObject();
+                System.out.println("\n - Product Name: " + product.getName());
+                System.out.println(" - Price ID: " + price.getId() + ", Amount: " + price.getUnitAmount());
             }
 
         } catch (StripeException e) {

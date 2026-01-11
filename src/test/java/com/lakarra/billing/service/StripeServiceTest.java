@@ -40,6 +40,7 @@ class StripeServiceTest {
 
         Price mockPrice = new Price();
         mockPrice.setId("price_123");
+        mockPrice.setUnitAmount(35L);
         
         mockPrices = new ArrayList<>();
         mockPrices.add(mockPrice);
@@ -51,8 +52,8 @@ class StripeServiceTest {
         // Arrange
         when(mockPriceCollection.getData()).thenReturn(mockPrices);
         
-        try (MockedStatic<com.stripe.model.Price> mockedPrice = mockStatic(com.stripe.model.Price.class)) {
-            mockedPrice.when(() -> com.stripe.model.Price.list(any(PriceListParams.class))).thenReturn(mockPriceCollection);
+        try (MockedStatic<Price> mockedPrice = mockStatic(Price.class)) {
+            mockedPrice.when(() -> Price.list(any(PriceListParams.class))).thenReturn(mockPriceCollection);
 
             // Act
             List<Price> result = stripeService.getActivePrices();
@@ -60,6 +61,8 @@ class StripeServiceTest {
             // Assert
             assertNotNull(result);
             assertEquals(1, result.size());
+            assertEquals("price_123", result.getFirst().getId());
+            assertEquals(35L, result.getFirst().getUnitAmount());
         }
     }
 
@@ -67,8 +70,8 @@ class StripeServiceTest {
     @DisplayName("Should handle StripeException when retrieving active prices")
     void testGetActivePrices_StripeException() throws StripeException {
         // Arrange
-        try (MockedStatic<com.stripe.model.Price> mockedPrice = mockStatic(com.stripe.model.Price.class)) {
-            mockedPrice.when(() -> com.stripe.model.Price.list(any(PriceListParams.class)))
+        try (MockedStatic<Price> mockedPrice = mockStatic(Price.class)) {
+            mockedPrice.when(() -> Price.list(any(PriceListParams.class)))
                     .thenThrow(new ApiException("API Error", "request_123", "code", 500, null));
 
             // Act & Assert

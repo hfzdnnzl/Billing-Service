@@ -30,6 +30,7 @@ public class StripeService {
         Stripe.apiKey = stripeApiKey;
         PriceListParams params = PriceListParams.builder()
                 .setActive(true)
+                .addExpand("data.product")
                 .build();
         PriceCollection prices = Price.list(params);
         return prices.getData();
