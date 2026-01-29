@@ -32,7 +32,7 @@ class StripeIntegrationTest {
             System.out.println("✅ CONNECTION SUCCESS: Successfully fetched " + prices.size() + " prices from Stripe.");
             
             for (Price price : prices) {
-                Product product = (Product) price.getProductObject();
+                Product product = price.getProductObject();
                 System.out.println("\n - Product Name: " + product.getName());
                 System.out.println(" - Price ID: " + price.getId() + ", Amount: " + price.getUnitAmount());
             }

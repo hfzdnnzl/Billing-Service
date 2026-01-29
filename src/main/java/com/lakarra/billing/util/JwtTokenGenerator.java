@@ -1,8 +1,6 @@
 package com.lakarra.billing.util;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -18,7 +16,6 @@ import java.util.Map;
 /**
  * Utility to generate JWT tokens for testing/demo purposes.
  * Run this class to generate a token that can be used with the Billing Service API.
- * 
  * In production, tokens would be issued by an Authorization Server (Auth0, Keycloak, AWS Cognito, etc.)
  */
 public class JwtTokenGenerator {
@@ -44,7 +41,6 @@ public class JwtTokenGenerator {
             
         } catch (Exception e) {
             System.err.println("Error generating JWT token: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -66,12 +62,12 @@ public class JwtTokenGenerator {
         claims.put("client_id", subject);
         
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuer("billing-service")
-                .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(expiry))
-                .signWith(privateKey, SignatureAlgorithm.RS256)
+                .claims(claims)
+                .subject(subject)
+                .issuer("billing-service")
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiry))
+                .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
     }
 

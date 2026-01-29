@@ -68,7 +68,7 @@ class StripeServiceTest {
 
     @Test
     @DisplayName("Should handle StripeException when retrieving active prices")
-    void testGetActivePrices_StripeException() throws StripeException {
+    void testGetActivePrices_StripeException() {
         // Arrange
         try (MockedStatic<Price> mockedPrice = mockStatic(Price.class)) {
             mockedPrice.when(() -> Price.list(any(PriceListParams.class)))

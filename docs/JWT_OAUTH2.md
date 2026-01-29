@@ -37,6 +37,22 @@ This service now supports **JWT Bearer token authentication** using OAuth2 Resou
 
 ---
 
+## Generate RSA Keypair
+
+### Create Private Key
+```bash
+openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out private_key.pem
+```
+
+### Create Public Key (from Private Key)
+```bash
+openssl rsa -in private_key.pem -pubout -out public_key.pem
+```
+
+Place both files in `src/main/resources/keys/`
+
+---
+
 ## Quick Start
 
 ### 1. Generate a Test Token
@@ -173,14 +189,14 @@ public ResponseEntity<List<Price>> getActivePrices() {
 
 ## Advantages Over API Keys
 
-| Feature | API Key | JWT/OAuth2 |
-|---------|---------|------------|
-| Revocation | Manual rotation required | Automatic expiry, can use blacklist/introspection |
-| Granular permissions | No | Yes (scopes/claims) |
-| User context | No | Yes (sub, email, etc.) |
-| Industry standard | No | Yes (OAuth2 RFC 6749) |
-| Recruiter perception | Basic | Professional/Production-ready |
-| Scalability | Single shared secret | Distributed validation |
+| Feature              | API Key                  | JWT/OAuth2                                        |
+|----------------------|--------------------------|---------------------------------------------------|
+| Revocation           | Manual rotation required | Automatic expiry, can use blacklist/introspection |
+| Granular permissions | No                       | Yes (scopes/claims)                               |
+| User context         | No                       | Yes (sub, email, etc.)                            |
+| Industry standard    | No                       | Yes (OAuth2 RFC 6749)                             |
+| Recruiter perception | Basic                    | Professional/Production-ready                     |
+| Scalability          | Single shared secret     | Distributed validation                            |
 
 ---
 
