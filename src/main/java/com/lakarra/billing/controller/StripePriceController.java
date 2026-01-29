@@ -1,7 +1,7 @@
 package com.lakarra.billing.controller;
 
 import com.stripe.exception.StripeException;
-import com.stripe.model.Price;
+import com.lakarra.billing.dto.PriceDTO;
 import com.lakarra.billing.service.StripeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,13 @@ public class StripePriceController {
     /**
      * Retrieve active prices from Stripe
      *
-     * @return List of active prices
+     * @return List of active prices with filtered fields
      */
     @GetMapping("/api/v1/stripe/prices/active")
-    public ResponseEntity<List<Price>> getActivePrices() {
+    public ResponseEntity<List<PriceDTO>> getActivePrices() {
         try {
             log.info("Fetching active prices from Stripe");
-            List<Price> prices = stripeService.getActivePrices();
+            List<PriceDTO> prices = stripeService.getActivePrices();
             return ResponseEntity.ok(prices);
         } catch (StripeException e) {
             log.error("Error fetching active prices from Stripe: {}", e.getMessage(), e);

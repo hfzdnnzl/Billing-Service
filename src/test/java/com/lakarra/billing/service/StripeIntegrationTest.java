@@ -1,8 +1,7 @@
 package com.lakarra.billing.service;
 
 import com.stripe.exception.StripeException;
-import com.stripe.model.Price;
-import com.stripe.model.Product;
+import com.lakarra.billing.dto.PriceDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,14 +25,13 @@ class StripeIntegrationTest {
     void testRealStripeConnection() {
         try {
             // This test calls the REAL Stripe API using the key in src/test/resources/application.properties
-            List<Price> prices = stripeService.getActivePrices();
+            List<PriceDTO> prices = stripeService.getActivePrices();
 
             assertNotNull(prices, "Prices list should not be null");
             System.out.println("✅ CONNECTION SUCCESS: Successfully fetched " + prices.size() + " prices from Stripe.");
             
-            for (Price price : prices) {
-                Product product = price.getProductObject();
-                System.out.println("\n - Product Name: " + product.getName());
+            for (PriceDTO price : prices) {
+                System.out.println("\n - Product Name: " + price.getProductName());
                 System.out.println(" - Price ID: " + price.getId() + ", Amount: " + price.getUnitAmount());
             }
 

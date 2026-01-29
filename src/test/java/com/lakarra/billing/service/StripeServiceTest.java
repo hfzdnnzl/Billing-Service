@@ -5,6 +5,7 @@ import com.stripe.exception.ApiException;
 import com.stripe.model.Price;
 import com.stripe.model.PriceCollection;
 import com.stripe.param.PriceListParams;
+import com.lakarra.billing.dto.PriceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,37 +33,40 @@ class StripeServiceTest {
     @Mock
     private PriceCollection mockPriceCollection;
 
-    private List<Price> mockPrices;
+    @Mock
+    private Price mockPrice;
 
     @BeforeEach
     void setUp() {
         ReflectionTestUtils.setField(stripeService, "stripeApiKey", "sk_test_123456");
-
-        Price mockPrice = new Price();
-        mockPrice.setId("price_123");
-        mockPrice.setUnitAmount(35L);
-        
-        mockPrices = new ArrayList<>();
-        mockPrices.add(mockPrice);
     }
 
     @Test
     @DisplayName("Should retrieve active prices successfully")
     void testGetActivePrices_Success() throws StripeException {
         // Arrange
+        when(mockPrice.getId()).thenReturn("price_123");
+        when(mockPrice.getUnitAmount()).thenReturn(3500L); // In cents
+        when(mockPrice.getCurrency()).thenReturn("myr");
+        when(mockPrice.getProduct()).thenReturn("prod_123");
+        when(mockPrice.getProductObject()).thenReturn(null);
+
+        List<Price> mockPrices = new ArrayList<>();
+        mockPrices.add(mockPrice);
+
         when(mockPriceCollection.getData()).thenReturn(mockPrices);
         
         try (MockedStatic<Price> mockedPrice = mockStatic(Price.class)) {
             mockedPrice.when(() -> Price.list(any(PriceListParams.class))).thenReturn(mockPriceCollection);
 
             // Act
-            List<Price> result = stripeService.getActivePrices();
+            List<PriceDTO> result = stripeService.getActivePrices();
 
             // Assert
             assertNotNull(result);
             assertEquals(1, result.size());
             assertEquals("price_123", result.getFirst().getId());
-            assertEquals(35L, result.getFirst().getUnitAmount());
+            assertEquals(35L, result.getFirst().getUnitAmount()); // 3500 cents / 100 = 35
         }
     }
 

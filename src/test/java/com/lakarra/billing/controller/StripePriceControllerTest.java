@@ -1,7 +1,7 @@
 package com.lakarra.billing.controller;
 
 import com.stripe.exception.ApiException;
-import com.stripe.model.Price;
+import com.lakarra.billing.dto.PriceDTO;
 import com.lakarra.billing.service.StripeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,14 +34,12 @@ class StripePriceControllerTest {
     @MockitoBean
     private StripeService stripeService;
 
-    private List<Price> mockPrices;
+    private List<PriceDTO> mockPrices;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        Price mockPrice = new Price();
-        mockPrice.setId("price_123");
-        mockPrice.setUnitAmount(35L);
+        PriceDTO mockPrice = PriceDTO.builder().id("price_123").unitAmount(35L).build();
 
         mockPrices = new ArrayList<>();
         mockPrices.add(mockPrice);
