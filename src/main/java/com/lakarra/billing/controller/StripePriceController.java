@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class StripePriceController {
      * @return List of active prices with filtered fields
      */
     @GetMapping("/api/v1/stripe/prices/active")
+    @PreAuthorize("hasAuthority('SCOPE_read:prices')")
     public ResponseEntity<List<PriceDTO>> getActivePrices() {
         try {
             log.info("Fetching active prices from Stripe");

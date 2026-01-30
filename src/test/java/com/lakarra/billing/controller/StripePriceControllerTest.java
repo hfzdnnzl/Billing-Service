@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ class StripePriceControllerTest {
 
     @Test
     @DisplayName("Should get active prices successfully")
+    @WithMockUser(authorities = "SCOPE_read:prices")
     void testGetActivePrices_Success() throws Exception {
         // Arrange
         when(stripeService.getActivePrices()).thenReturn(mockPrices);
@@ -62,6 +64,7 @@ class StripePriceControllerTest {
 
     @Test
     @DisplayName("Should return 500 when StripeException occurs in getActivePrices")
+    @WithMockUser(authorities = "SCOPE_read:prices")
     void testGetActivePrices_StripeException() throws Exception {
         // Arrange
         when(stripeService.getActivePrices()).thenThrow(new ApiException("API Error", "request_123", "code", 500, null));
